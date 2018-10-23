@@ -1,0 +1,47 @@
+{
+    "name": "@rezolabs/pre-build",
+    "version": "0.0.1",
+    "description": "Template processing tool for deployment",
+    "main": "cli.js",
+    "bin": {
+        "pre-build": "./cli.js"
+    },
+    "scripts": {
+        "test": "./cli.js test/pre-build.config.js"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/duyisking/pre-build.git"
+    },
+    "keywords": [
+        "html",
+        "ejs",
+        "deployment",
+        "template",
+        "tool"
+    ],
+    "author": "Vu Duc Duy <duyisking1060@gmail.com>",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/duyisking/pre-build/issues"
+    },
+    "homepage": "https://github.com/duyisking/pre-build#readme",
+    "dependencies": {
+        "babel-eslint": "^10.0.1",
+        "chalk": "^2.4.1",
+        "find": "^0.2.9",
+        "jsdom": "^12.2.0",
+        "lodash": "^4.17.11",
+        "uglify-js": "^3.4.9"
+    },
+    "devDependencies": {
+        "eslint": "^5.7.0",
+        "eslint-config-airbnb": "^17.1.0",
+        "eslint-import-resolver-webpack": "^0.10.1",
+        "eslint-plugin-import": "^2.14.0",
+        "eslint-plugin-jest": "^21.26.0",
+        "eslint-plugin-jsx-a11y": "^6.1.2",
+        "eslint-plugin-react": "^7.11.1",
+        "jest": "^23.6.0"
+    }
+}
