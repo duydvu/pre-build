@@ -1,4 +1,6 @@
 #!/usr/bin/env node
-const preBuild = require('./src/pre-build.js');
+const { getConfig } = require('./src/config');
+const preBuild = require('./src/pre-build');
 
+getConfig();
 preBuild();
