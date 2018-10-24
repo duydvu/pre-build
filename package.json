@@ -1,6 +1,6 @@
 {
     "name": "@rezolabs/pre-build",
-    "version": "0.1.0",
+    "version": "0.1.1",
     "description": "Template processing tool for deployment",
     "main": "cli.js",
     "bin": {
