@@ -10,16 +10,16 @@ It costs a lot of time to bring a project from development to production. In the
 
 That's not the end, new features will be added in the future. We would be very pleased to receive your PRs.
 ## Installation
-```
+```bash
 npm install @rezolabs/pre-build -g
 ```
 ## Usage
 You must supply a config file named `pre-build.config.js` to let Pre-build know what and how to execute your templates. Then run the command:
-```
+```bash
 pre-build
 ```
 You can name the file with a prefered name but you have to specify your prefered name in the command-line script:
-```
+```bash
 pre-build your-prefered-file-name.js
 ```
 ## Example
@@ -33,7 +33,7 @@ For example, you have the following working tree:
     +-- main.4ced4b9d199a27657a5d.js
 ```
 And in `index.html`:
-```
+```html
 <!DOCTYPE html>
 <html>
     <head>
@@ -47,7 +47,7 @@ And in `index.html`:
 </html>
 ```
 You want the script tag to automatically change to `src="/build/main.4ced4b9d199a27657a5d.js"` on production. The `4ced4b9d199a27657a5d` string in the name of the file is used for **cache busting** on browsers and is generated in a way that cannot be predicted. Only after the file is generated, then you can look up for it in its directory and change the `index.html` file. Instead of doing it manually, you can now use Pre-build.js to handle all of your costly tasks for you. Let's edit the `pre-build.config.js` file by copying the following code:
-```
+```javascript
 module.exports = {
     srcDir: './',
     outDir: './',
@@ -70,11 +70,11 @@ module.exports = {
 };
 ```
 Then in the terminal run:
-```
+```bash
 pre-build
 ```
 When finished, your `index.html` will be changed to:
-```
+```html
 <!DOCTYPE html>
 <html>
     <head>
