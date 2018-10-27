@@ -11,7 +11,6 @@
 const fs = require('fs');
 const path = require('path');
 const jsdom = require('jsdom');
-const UglifyJS = require('uglify-js');
 const chalk = require('chalk');
 const errorHandler = require('./error-handler');
 const executeTodoList = require('./execute-todo-list');
@@ -24,7 +23,6 @@ module.exports = () => {
     const {
         srcDir,
         outDir,
-        scripts,
         tasks,
     } = config;
 
@@ -37,6 +35,7 @@ module.exports = () => {
 
         files.forEach((f) => {
             // Reading
+            const ext = f.match(/\w+.(\w+)$/)[1];
             const filePath = path.resolve(srcDir, dir || '', f);
             const index = fs.readFileSync(filePath);
 
@@ -44,48 +43,26 @@ module.exports = () => {
             const dom = new JSDOM(index.toString());
             const { document } = dom.window;
 
-            // Insert scripts and minify them
-            scripts.forEach((scr, i) => {
-                let script = JSDOM.fragment(scr);
-                const { textContent } = script;
-                document.head.appendChild(script);
-                if (textContent !== '') {
-                    script = document.querySelector('script:last-child');
-                    const minified = UglifyJS.minify(script.innerHTML);
-                    if (minified.error) {
-                        errorHandler(f, 'Insert scripts', `Failed while minifying the ${i} script`, minified.error);
-                    }
-                    else {
-                        script.innerHTML = minified.code;
-                    }
-                }
-            });
-
             // Do todo
             task.todos.forEach((todo) => {
-                const { query } = todo;
-
-                if (!query) {
-                    errorHandler(f, todo.name, `Query must be specified for file ${f}`);
-                }
-
-                // Find the target which matches all conditions
-                const targets = Array.prototype.slice.call(document.querySelectorAll(query));
-
-                if (targets.length !== 1) {
-                    errorHandler(f, todo.name, `Query must match only 1 target, but found ${targets.length}.`);
-                }
-
                 // process todo list
-                executeTodoList(f, todo, targets[0], document);
+                const err = executeTodoList(document, todo);
+                if (err) {
+                    errorHandler(f, err);
+                }
             });
 
             // Then writing to the location
             const outputFile = path.resolve(outDir, f);
-            const fileContent = dom.serialize().replace(/&lt;/g, '<').replace(/&gt;/g, '>');
+            let fileContent = dom.serialize();
+
+            if (ext === 'ejs') {
+                fileContent = fileContent.replace(/&lt;/g, '<').replace(/&gt;/g, '>');
+            }
+
             fs.writeFile(outputFile, fileContent, (err) => {
                 if (err) {
-                    errorHandler(f, 'Write file', err.message, err.stack);
+                    errorHandler(f, err.message, err.stack);
                 }
                 else {
                     console.log(f, chalk.bold.green('[Success]'));

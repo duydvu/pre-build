@@ -6,7 +6,8 @@ It costs a lot of time to bring a project from development to production. In the
 ## Features
 * Cache busting by changing file name.
 * Change resources from development to production version.
-* Insert production only scripts such as Google Analytic.
+* Inject production only scripts such as Google Analytic.
+* Replace resources by injecting their content directly (inline).
 
 That's not the end, new features will be added in the future. We would be very pleased to receive your PRs.
 ## Installation

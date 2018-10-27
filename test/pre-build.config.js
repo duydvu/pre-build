@@ -2,24 +2,31 @@
 module.exports = {
     srcDir: './template',
     outDir: './dist',
-    findDir: './dist/build',
-    publicPath: '/build',
+    inject: {
+        scripts: [
+            '<script>alert(1)</script>',
+        ],
+    },
+    cacheBust: {
+        findDir: './dist/build',
+    },
     tasks: [
         {
             file: 'index.ejs',
             todos: [
                 {
-                    name: 'Insert hash for main.css',
-                    type: 'insert-hash',
-                    attribute: 'href',
+                    type: 'inject',
+                },
+                {
+                    type: 'cache-bust',
                     query: 'link[href="/build/main.css"]',
+                    attribute: 'href',
                     regex: /main.\w+.css$/,
                 },
                 {
-                    name: 'Insert hash for main.bundle.js',
-                    type: 'insert-hash',
-                    attribute: 'src',
+                    type: 'cache-bust',
                     query: 'script[src="/build/main.bundle.js"]',
+                    attribute: 'src',
                     regex: /main.bundle.\w+.js$/,
                 },
             ],
